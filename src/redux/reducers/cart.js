@@ -7,7 +7,7 @@ import {
 } from '../types';
 
 const initialState = {
-  items: {},
+  items: [],
   totalCard: 0,
   totalPrice: 0,
 };
@@ -17,16 +17,14 @@ const getTotalPrice = (arr) => arr.reduce((sum, obj) => obj.price + sum, 0);
 const cart = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TO_CART: {
-      const currentPhoneItems = !state.items[action.payload.id] // Если такого ключа нету
-        ? [action.payload] // создай и в items укажи что будет один массив
-        : [...state.items[action.payload.id].items, action.payload]; // Но если такой ключ есть
-      // то пересоздай этот массив, возьми все старые значение, из items[{...}], из свойства 2
-      // и в конец добавь новый объект [action.payload];
+      const currentPhoneItems = !state.items[action.payload.id]
+        ? [action.payload]
+        : [...state.items[action.payload.id].items, action.payload];
 
       const newItems = {
         ...state.items,
         [action.payload.id]: {
-          items: currentPhoneItems, // и он уже помещается в items сюда items[{...}]
+          items: currentPhoneItems,
           totalPrice: getTotalPrice(currentPhoneItems),
         },
       };
